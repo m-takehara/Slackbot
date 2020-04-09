@@ -15,7 +15,7 @@ function setTrigger(): void {
         today.setHours(9);
         today.setMinutes(15);
         ScriptApp
-            .newTrigger("postReporterToSlack")
+            .newTrigger("postToSlack")
             .timeBased()
             .at(today)
             .create();
@@ -26,7 +26,7 @@ function setTrigger(): void {
  * Slack に投稿をする関数.
  * ScriptApp.newTrigger(関数名) のかたちでコールされることを想定.
  */
-function postReporterToSlack(): void {
+function postToSlack(): void {
     const params: URLFetchRequestOptions = {
         method: 'post',
         contentType: 'application/json',
