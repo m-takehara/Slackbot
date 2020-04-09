@@ -4,14 +4,14 @@ const SPREADSHEET_ID = "1YkiC6SaxaDS0uGxcZnIYE-s-SsmT3pekROrqAgWcnb4";
 
 export class SpreadsheetClient {
     public static getPersonInCharge(): string {
-        const pic: Object[][] = SpreadsheetClient.getSpreadsheetValues();
+        const pic: Object[][] = this.getSpreadsheetValues();
 
         const mc = pic.filter(v => v[1] === 'mc')[0][0];
         return `本日の DailyScrum 司会は ${mc} さんです!`;
     }
 
     public static getNextPersonInCharge(): string {
-        SpreadsheetClient.shiftNextRole();
+        this.shiftNextRole();
         return this.getPersonInCharge();
     }
 
@@ -22,22 +22,22 @@ export class SpreadsheetClient {
     }
 
     private static getSpreadsheetValues(): Object[][] {
-        return SpreadsheetClient.getSpreadsheet()
+        return this.getSpreadsheet()
             .getDataRange()
             .getValues();
     }
 
     private static setSpreadsheetValue(a1notation: string, value: string): void {
-        SpreadsheetClient.getSpreadsheet().getRange(a1notation).setValue(value);
+        this.getSpreadsheet().getRange(a1notation).setValue(value);
     }
 
     private static shiftNextRole(): void {
-        const values = SpreadsheetClient.getSpreadsheetValues();
+        const values = this.getSpreadsheetValues();
 
         const facilitatorNumber = values.indexOf(values.filter(v => v[1] === 'mc')[0]) + 1;
-        SpreadsheetClient.setSpreadsheetValue(`B${facilitatorNumber}`, '');
+        this.setSpreadsheetValue(`B${facilitatorNumber}`, '');
 
         const nextFacilitatorNumber = facilitatorNumber % values.length + 1;
-        SpreadsheetClient.setSpreadsheetValue(`B${nextFacilitatorNumber}`, 'mc');
+        this.setSpreadsheetValue(`B${nextFacilitatorNumber}`, 'mc');
     }
 }
