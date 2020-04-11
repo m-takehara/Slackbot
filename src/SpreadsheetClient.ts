@@ -1,6 +1,6 @@
 import Sheet = GoogleAppsScript.Spreadsheet.Sheet;
 
-const SPREADSHEET_ID = "1YkiC6SaxaDS0uGxcZnIYE-s-SsmT3pekROrqAgWcnb4";
+const SPREADSHEET_ID = PropertiesService.getScriptProperties().getProperty("SPREADSHEET_ID");
 
 export class SpreadsheetClient {
     public static getPersonInCharge(): string {

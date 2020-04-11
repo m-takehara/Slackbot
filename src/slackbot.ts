@@ -2,14 +2,12 @@ import URLFetchRequestOptions = GoogleAppsScript.URL_Fetch.URLFetchRequestOption
 import {SpreadsheetClient} from "./SpreadsheetClient";
 import {GoogleCalendar} from "./GoogleCalendar";
 
-const SLACK_URL = 'https://hooks.slack.com/services/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';
-
 /**
  * 時刻トリガーで使う関数.
  * この関数を GAS の時刻トリガからフックする.
  * もし当日が営業日(土日祝日でない)なら 9:15 に Slack に POST する.
  */
-function setTrigger(): void {
+export function setTrigger(): void {
     const today = new Date();
     if (GoogleCalendar.isBusinessDay(today)) {
         today.setHours(9);
@@ -26,13 +24,14 @@ function setTrigger(): void {
  * Slack に投稿をする関数.
  * ScriptApp.newTrigger(関数名) のかたちでコールされることを想定.
  */
-function postToSlack(): void {
+export function postToSlack(): void {
+    const slackUrl = PropertiesService.getScriptProperties().getProperty("SLACK_URL")
     const params: URLFetchRequestOptions = {
-        method: 'post',
-        contentType: 'application/json',
+        method: "post",
+        contentType: "application/json",
         payload: JSON.stringify({
             text: SpreadsheetClient.getNextPersonInCharge()
         })
     };
-    UrlFetchApp.fetch(SLACK_URL, params);
+    UrlFetchApp.fetch(slackUrl, params);
 }
