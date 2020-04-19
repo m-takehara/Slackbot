@@ -1,7 +1,7 @@
 const HOLIDAY_CALENDAR_ID = "ja.japanese#holiday@group.v.calendar.google.com";
 
 export class GoogleCalendar {
-    public static isBusinessDay(today: Date) {
+    public static isBusinessDay(today: Date): boolean {
         return !(this.isHoliday(today) || this.isPublicHoliday(today));
     }
 
