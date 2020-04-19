@@ -1,5 +1,5 @@
 import URLFetchRequestOptions = GoogleAppsScript.URL_Fetch.URLFetchRequestOptions;
-import {SpreadsheetClient} from "./SpreadsheetClient";
+import {GoogleSpreadsheet} from "./GoogleSpreadsheet";
 import {GoogleCalendar} from "./GoogleCalendar";
 
 /**
@@ -25,12 +25,13 @@ export function setTrigger(): void {
  * ScriptApp.newTrigger(関数名) のかたちでコールされることを想定.
  */
 export function postToSlack(): void {
-    const slackUrl = PropertiesService.getScriptProperties().getProperty("SLACK_URL")
+    const slackUrl = PropertiesService.getScriptProperties().getProperty("SLACK_URL");
+    const facilitatorName = GoogleSpreadsheet.getNextFacilitator();
     const params: URLFetchRequestOptions = {
         method: "post",
         contentType: "application/json",
         payload: JSON.stringify({
-            text: SpreadsheetClient.getNextPersonInCharge()
+            text: `本日の DailyScrum 司会は ${facilitatorName} さんです!`
         })
     };
     UrlFetchApp.fetch(slackUrl, params);
