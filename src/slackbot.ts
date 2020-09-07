@@ -5,13 +5,13 @@ import {GoogleCalendar} from "./GoogleCalendar";
 /**
  * 時刻トリガーで使う関数.
  * この関数を GAS の時刻トリガからフックする.
- * もし当日が営業日(土日祝日でない)なら 9:15 に Slack に POST する.
+ * もし当日が営業日(土日祝日でない)なら 17:00 に Slack に POST する.
  */
 export function setTrigger(): void {
     const today = new Date();
     if (GoogleCalendar.isBusinessDay(today)) {
-        today.setHours(9);
-        today.setMinutes(15);
+        today.setHours(17);
+        today.setMinutes(0);
         ScriptApp
             .newTrigger("postToSlack")
             .timeBased()
